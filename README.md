@@ -9,12 +9,14 @@ IDEA应用商店中搜索"**any-rule**".
 ### 使用
 **方式1:**
 
-1. 按**alt + a**打开正则列表.
-2. **输入关键词搜索**, 比如"手机".
+按**alt + a**打开正则列表
 
+![](http://www.52zhoujia.cn/upload/2020/04/o8ks49pfnmhisq30bmpt9obpb3.gif)
 **方式2:**
- 
-右键选择"any rule".
+
+右键选择**Any Rule** 打开正则列表
+
+![](http://www.52zhoujia.cn/upload/2020/04/o8ks49pfnmhisq30bmpt9obpb3.gif)
 
 ## :fire:关于插件
-数据来源于[anyrule](https://github.com/any86/any-rule/,'anyrule')
+数据来源于[anyrule](https://github.com/any86/any-rule/)
