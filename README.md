@@ -9,12 +9,12 @@ IDEA应用商店中搜索"**any-rule**".
 ### 使用
 **方式1:**
 
-按**alt + a**打开正则列表
+右键选择**Any Rule** 打开正则列表
 
 ![](http://www.52zhoujia.cn/upload/2020/04/o8ks49pfnmhisq30bmpt9obpb3.gif)
 **方式2:**
 
-右键选择**Any Rule** 打开正则列表
+按**alt + a**打开正则列表
 
 ![](http://www.52zhoujia.cn/upload/2020/04/o8ks49pfnmhisq30bmpt9obpb3.gif)
 
