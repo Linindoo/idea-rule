@@ -1,8 +1,8 @@
 <idea-plugin>
   <id>cn.olange.rule</id>
   <name>any-rule</name>
-  <version>1.0.1</version>
-  <vendor email="olange@www.52zhoujia.com" url="https://github.com/any86/any-rule">any-rule</vendor>
+  <version>1.0.2</version>
+  <vendor email="olange@www.52zhoujia.com" url="https://github.com/zhoriya/idea-rule">any-rule</vendor>
 
   <description><![CDATA[
   <html>
@@ -10,23 +10,31 @@
       <ul>
         <li>1.Quick to search</li>
         <li>2.Easy to use</li>
-        <li>3.The data comes in large part from <a href="https://github.com/any86/any-rule">any-rule</a>，it`s effective and reliable</li>
+        <li>3.This tool is free for personal and commercial usage</li>
       </ul>
     <p>常用正则大全</p>
       <ul>
         <li>1.快速检索</li>
         <li>2.方便使用</li>
-        <li>3.数据来源于<a href="https://github.com/any86/any-rule">any-rule</a>，安全有效</li>
+        <li>3.免费使用</li>
       </ul>
     </html>
     ]]></description>
   <change-notes><![CDATA[
     <html>
-       <p> 常用正则查询和使用</p>
+      <p> Version 1.0.2</p>
+      <ul>
+        <li>[fix] 修复数组越界的bug</li>
+        <li>[update] 正则数据同步更新</li>
+        <li>[update] 默认选中搜索输入框，优化使用体验</li>
+        <li>[add] 添加空行匹配正则</li>
+      </ul>
+       <p> Version 1.0.1</p>
        <ul>
-        <li>1.支持快捷键和鼠标右键两种调取工具方式</li>
-        <li>2.支持模糊查询</li>
-        <li>3.可以选中合适的正则直接添加到文本编辑器中</li>
+        <li>[add] 支持快捷键和鼠标右键两种调取工具方式</li>
+        <li>[add] 支持模糊查询</li>
+        <li>[add] 可以选中合适的正则直接添加到文本编辑器中</li>
+        <li>[add] 支持正则预览</li>
       </ul>
     </html>
     ]]>
