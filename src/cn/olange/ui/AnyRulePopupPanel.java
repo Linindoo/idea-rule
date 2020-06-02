@@ -32,6 +32,7 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.openapi.wm.IdeGlassPane;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.impl.IdeFrameImpl;
@@ -53,10 +54,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -123,6 +121,7 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 		this.mySearchComponent.setColumns(25);
 		this.mySearchComponent.setRows(1);
 		this.mySearchTextArea = new SearchTextArea(this.mySearchComponent, true, true);
+		this.mySearchTextArea.setFocusable(true);
 		this.mySearchTextArea.setMultilineEnabled(false);
 		this.add(this.mySearchTextArea, "pushx, growx, sx 10, gaptop 4, wrap");
 		this.mySearchRescheduleOnCancellationsAlarm = new Alarm();
@@ -186,8 +185,10 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 		final Runnable updatePreviewRunnable = () -> {
 			if (!Disposer.isDisposed(this.myDisposable)) {
 				int selectedRow = this.myResultsPreviewTable.getSelectedRow();
-				Object data = this.myResultsPreviewTable.getModel().getValueAt(selectedRow, 0);
-				rulePreviewPanel.updateLayout((JsonObject) data);
+				if (selectedRow >= 0) {
+					Object data = this.myResultsPreviewTable.getModel().getValueAt(selectedRow, 0);
+					rulePreviewPanel.updateLayout((JsonObject) data);
+				}
 			}
 		};
 
@@ -356,7 +357,9 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 				} else {
 					w.setLocationRelativeTo(parent);
 				}
+
 				this.myDialog.show();
+				this.mySearchComponent.requestFocus();
 
 				w.addWindowListener(new WindowAdapter() {
 					public void windowOpened(WindowEvent e) {
