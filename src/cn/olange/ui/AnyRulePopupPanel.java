@@ -9,6 +9,7 @@ import com.intellij.find.SearchTextArea;
 import com.intellij.find.actions.ShowUsagesAction;
 import com.intellij.ide.IdeEventQueue;
 import com.intellij.ide.ui.UISettings;
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -32,7 +33,6 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.openapi.wm.IdeGlassPane;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.impl.IdeFrameImpl;
@@ -61,6 +61,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 	private static final KeyStroke ENTER = KeyStroke.getKeyStroke(10, 0);
 	private static final KeyStroke ENTER_WITH_MODIFIERS = KeyStroke.getKeyStroke(10, SystemInfo.isMac ? 256 : 128);
+	private static final String IGNORE_SWAY_ROD = "any.rule.ignoreSwayRod";
 	private final Disposable myDisposable;
 	private Project project;
 	private Editor editor;
@@ -79,6 +80,7 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 	private JButton myOKButton;
 	private final Alarm myPreviewUpdater;
 	private RulePreviewPanel rulePreviewPanel;
+	private StateRestoringCheckBox ignoreSwayRod;
 	public static final String SERVICE_KEY = "any.rule";
 	public static final String SPLITTER_SERVICE_KEY = "any.rule.splitter";
 
@@ -211,9 +213,27 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 			}
 		};
 		this.mySearchComponent.getDocument().addDocumentListener(documentAdapter);
+		this.ignoreSwayRod = createCheckBox("自动去除首尾斜杆");
+		PropertiesComponent propertiesComponent = PropertiesComponent.getInstance(this.project);
+		boolean ignore = propertiesComponent.getBoolean(IGNORE_SWAY_ROD, false);
+		this.ignoreSwayRod.setSelected(ignore);
+		this.ignoreSwayRod.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				propertiesComponent.setValue(IGNORE_SWAY_ROD, ignoreSwayRod.isSelected());
+			}
+		});
 		JPanel bottomPanel = new JPanel(new BorderLayout());
+		bottomPanel.add(ignoreSwayRod, BorderLayout.CENTER);
 		bottomPanel.add(myOKButton, BorderLayout.EAST);
 		this.add(bottomPanel, "pushx, growx, dock south, sx 10");
+	}
+
+	@NotNull
+	private static StateRestoringCheckBox createCheckBox(String message) {
+		StateRestoringCheckBox checkBox = new StateRestoringCheckBox(message);
+		checkBox.setFocusable(false);
+		return checkBox;
 	}
 
 	public void scheduleResultsUpdate() {
@@ -410,9 +430,26 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 			int offset = editor.getCaretModel().getOffset();
 			WriteCommandAction.Builder builder = WriteCommandAction.writeCommandAction(AnyRulePopupPanel.this.project);
 			builder.run(() -> {
-				editor.getDocument().insertString(offset, StringEscapeUtils.escapeJava(value.get("rule").getAsString()));
+				String  rule = value.get("rule").getAsString();
+				editor.getDocument().insertString(offset, StringEscapeUtils.escapeJava(convertRule(rule)));
 			});
 		});
+	}
+
+	private String convertRule(String rule) {
+		if (rule == null) {
+			return "";
+		}
+		if (this.ignoreSwayRod.isSelected()) {
+			int first = rule.indexOf("/");
+			first = Math.max(first + 1, 0);
+			int lastIndexOf = rule.lastIndexOf("/");
+			lastIndexOf = Math.min(lastIndexOf, rule.length() -1);
+			return rule.substring(first, lastIndexOf);
+		}
+		return rule;
+
+
 	}
 
 	private boolean canBeClosedImmediately() {
