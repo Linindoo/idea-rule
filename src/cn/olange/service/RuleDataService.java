@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import org.apache.commons.lang.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,7 +44,8 @@ public class RuleDataService {
 
 	private void initData() {
 		try {
-			String content = FileUtil.loadTextAndClose(RuleDataService.class.getResourceAsStream("/data/rule.js" ));
+			String file = RuleDataService.class.getClassLoader().getResource("data/rule.js").getFile();
+			String content = FileUtil.loadFile(new File(file), "utf-8");
 			if (StringUtils.isNotEmpty(content)) {
 				Pattern compile = Pattern.compile("\\{\r\n([\\d\\D]*?)\r\n *?}");
 				Matcher matcher = compile.matcher(content);
