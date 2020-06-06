@@ -25,9 +25,11 @@
       <p> Version 1.0.2</p>
       <ul>
         <li>[fix] 修复数组越界的bug</li>
+        <li>[fix] 修复低版本中文乱码的bug</li>
         <li>[update] 正则数据同步更新</li>
         <li>[update] 默认选中搜索输入框，优化使用体验</li>
         <li>[add] 添加空行匹配正则</li>
+        <li>[add] 添加自动去除首尾斜杆选项</li>
       </ul>
        <p> Version 1.0.1</p>
        <ul>
