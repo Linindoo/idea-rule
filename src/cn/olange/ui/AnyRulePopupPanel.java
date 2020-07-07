@@ -44,7 +44,6 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.Alarm;
 import com.intellij.util.ui.*;
-import groovy.json.StringEscapeUtils;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXTextArea;
 import org.jetbrains.annotations.NotNull;
@@ -431,7 +430,7 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 			WriteCommandAction.Builder builder = WriteCommandAction.writeCommandAction(AnyRulePopupPanel.this.project);
 			builder.run(() -> {
 				String  rule = value.get("rule").getAsString();
-				editor.getDocument().insertString(offset, StringEscapeUtils.escapeJava(convertRule(rule)));
+				editor.getDocument().insertString(offset, convertRule(rule));
 			});
 		});
 	}

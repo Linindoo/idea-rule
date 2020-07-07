@@ -10,7 +10,6 @@ import com.intellij.ui.components.JBPanelWithEmptyText;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.JBInsets;
 import com.intellij.util.ui.JBUI;
-import groovy.json.StringEscapeUtils;
 import org.jdesktop.swingx.JXTextArea;
 
 import java.awt.*;
@@ -46,7 +45,7 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 		String examples = row.get("examples").getAsString();
 		this.setBorder(IdeBorderFactory.createTitledBorder(title, false, new JBInsets(8, 0, 0, 0)).setShowLine(false));
 		this.setToolTipText(title);
-		this.textArea.setText(StringEscapeUtils.escapeJava(rule));
+		this.textArea.setText(rule);
 		this.examples.setText(examples);
 	}
 
