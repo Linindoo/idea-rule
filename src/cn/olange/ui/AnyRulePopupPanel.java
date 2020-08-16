@@ -3,6 +3,7 @@ package cn.olange.ui;
 import cn.olange.model.MyEnterAction;
 import cn.olange.model.UsageTableCellRenderer;
 import cn.olange.service.RuleDataService;
+import cn.olange.utils.RuleUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.intellij.find.SearchTextArea;
@@ -258,10 +259,6 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 						getRootPane().setDefaultButton(null);
 					}
 
-					@Override
-					protected void doOKAction() {
-						AnyRulePopupPanel.this.insertRuleToDocument();
-					}
 
 					@Override
 					protected void dispose() {
@@ -271,6 +268,12 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 					@NotNull
 					@Override
 					protected Action[] createLeftSideActions() {
+						return new Action[0];
+					}
+
+					@NotNull
+					@Override
+					protected Action[] createActions() {
 						return new Action[0];
 					}
 
@@ -440,11 +443,7 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 			return "";
 		}
 		if (this.ignoreSwayRod.isSelected()) {
-			int first = rule.indexOf("/");
-			first = Math.max(first + 1, 0);
-			int lastIndexOf = rule.lastIndexOf("/");
-			lastIndexOf = Math.min(lastIndexOf, rule.length() -1);
-			return rule.substring(first, lastIndexOf);
+			return RuleUtil.convertRule(rule);
 		}
 		return rule;
 

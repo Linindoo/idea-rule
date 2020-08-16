@@ -22,6 +22,10 @@
     ]]></description>
   <change-notes><![CDATA[
     <html>
+     <p> Version 1.0.3</p>
+      <ul>
+        <li>[add] 添加正则匹配实时校验</li>
+      </ul>
       <p> Version 1.0.2.1</p>
       <ul>
         <li>[fix] 高版本StringEscapUtil找不到的bug</li>
