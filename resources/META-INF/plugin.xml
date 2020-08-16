@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>cn.olange.rule</id>
   <name>any-rule</name>
-  <version>1.0.2.1</version>
+  <version>1.0.3</version>
   <vendor email="olange@www.52zhoujia.com" url="https://github.com/zhoriya/idea-rule">any-rule</vendor>
 
   <description><![CDATA[
