@@ -3,11 +3,13 @@ package cn.olange.ui;
 import cn.olange.model.MyEnterAction;
 import cn.olange.model.UsageTableCellRenderer;
 import cn.olange.service.RuleDataService;
+import cn.olange.setting.SettingConfigurable;
 import cn.olange.utils.RuleUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.intellij.find.SearchTextArea;
 import com.intellij.find.actions.ShowUsagesAction;
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.IdeEventQueue;
 import com.intellij.ide.ui.UISettings;
 import com.intellij.ide.util.PropertiesComponent;
@@ -20,6 +22,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.util.ProgressIndicatorBase;
 import com.intellij.openapi.progress.util.ProgressIndicatorUtils;
@@ -111,14 +114,23 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 		this.myTitlePanel = new JPanel(new MigLayout("flowx, ins 0, gap 0, fillx, filly"));
 		this.myTitlePanel.add(this.myTitleLabel);
 		this.myTitlePanel.add(this.myLoadingDecorator.getComponent(), "w 24, wmin 24");
+		JButton settingBtn = new JButton(AllIcons.General.Settings);
+		settingBtn.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ShowSettingsUtil.getInstance().showSettingsDialog(project, SettingConfigurable.DISPLAY_NAME);
+			}
+		});
 		this.myTitlePanel.add(Box.createHorizontalGlue(), "growx, pushx");
+
 
 		this.myOKButton = new JButton("Enter 使用");
 		this.myOKButton.addActionListener((e) -> {
 			AnyRulePopupPanel.this.insertRuleToDocument();
 		});
 
-		this.add(this.myTitlePanel, "wrap");
+		this.add(this.myTitlePanel, "sx 2, growx, growx, growy");
+		this.add(settingBtn, "w 24, wmin 24, gapleft 4, gapright 16,wrap");
 		this.mySearchComponent = new JXTextArea();
 		this.mySearchComponent.setColumns(25);
 		this.mySearchComponent.setRows(1);
@@ -528,8 +540,7 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 						if (this.isCancelled()) {
 							AnyRulePopupPanel.this.onStop(hash);
 						} else {
-							RuleDataService ruleDataService = RuleDataService.getInstance(AnyRulePopupPanel.this.project);
-							ruleDataService.filterRule(AnyRulePopupPanel.this.mySearchComponent.getText(), (result) -> {
+							RuleDataService.filterRule(AnyRulePopupPanel.this.mySearchComponent.getText(), (result) -> {
 								if (result.isSuccess()) {
 									JsonArray array = (JsonArray) result.getResult();
 									for (int i = 0; i < array.size(); i++) {

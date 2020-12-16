@@ -22,6 +22,11 @@
     ]]></description>
   <change-notes><![CDATA[
     <html>
+    <p> Version 1.0.4</p>
+      <ul>
+        <li>[add] 添加配置，允许自定义正则库</li>
+        <li>[add] 支持远程更新正则库</li>
+      </ul>
      <p> Version 1.0.3</p>
       <ul>
         <li>[add] 添加正则匹配实时校验</li>
@@ -62,6 +67,10 @@
     <!-- Add your extensions here -->
     <projectService serviceInterface="cn.olange.service.RuleDataService"
                     serviceImplementation="cn.olange.service.RuleDataService"/>
+    <applicationService serviceInterface="cn.olange.setting.RulePersistentConfig"
+                        serviceImplementation="cn.olange.setting.RulePersistentConfig"/>
+    <applicationConfigurable groupId="tools" displayName="any rule" id="any.rule"
+                             instance="cn.olange.setting.SettingConfigurable"/>
   </extensions>
 
   <actions>
