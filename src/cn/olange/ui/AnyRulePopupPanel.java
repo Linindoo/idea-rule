@@ -130,7 +130,7 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 		});
 
 		this.add(this.myTitlePanel, "sx 2, growx, growx, growy");
-		this.add(settingBtn, "w 24, wmin 24, gapleft 4, gapright 16,wrap");
+		this.add(settingBtn, "w 24, wmin 24, gapleft 4, gapright 4,wrap");
 		this.mySearchComponent = new JXTextArea();
 		this.mySearchComponent.setColumns(25);
 		this.mySearchComponent.setRows(1);
