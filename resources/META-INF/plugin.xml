@@ -74,7 +74,7 @@
   </extensions>
 
   <actions>
-      <action id="AnyRule" class="cn.olange.AnyRuleFindAction" text="AnyRule" description="正则表达式">
+      <action id="AnyRule" class="cn.olange.AnyRuleFindAction" icon="/icons/regex.png" text="AnyRule" description="正则表达式">
           <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         <keyboard-shortcut keymap="$default" first-keystroke="alt A"/>
       </action>
