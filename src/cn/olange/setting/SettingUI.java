@@ -19,6 +19,7 @@ import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.UIUtil;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -144,12 +145,14 @@ public class SettingUI {
             try {
                 InputStream resourceAsStream = RuleDataService.class.getResourceAsStream("/data/rule.js");
                 InputStreamReader inputStreamReader = new InputStreamReader(resourceAsStream, "utf-8");
-                rawFileContent = FileUtil.loadTextAndClose(inputStreamReader);
-                dataEditor.getDocument().setText(rawFileContent.replace("\r\n","\n"));
+                String text = FileUtil.loadTextAndClose(inputStreamReader);
+                if (StringUtils.isNotEmpty(text)) {
+                    text = text.replace("\r\n", "\n");
+                    this.rawFileContent = text;
+                    dataEditor.getDocument().setText(text);
+                }
             } catch (Exception e) {
-
             }
-
         });
     }
 }
