@@ -8,10 +8,12 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.keymap.KeymapUtil;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.OnePixelDivider;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.IdeBorderFactory;
+import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBPanelWithEmptyText;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.Alarm;
@@ -38,8 +40,10 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 	private JLabel statusText;
 	private JTextArea checkTextArea;
 	private Alarm checkAlarm;
+	private JTextArea exampleText;
 
 	public static final KeyStroke NEW_LINE_KEYSTROKE = KeyStroke.getKeyStroke(10, (SystemInfo.isMac ? 256 : 128) | 64);
+	public static final String SPLITTER_SERVICE_KEY = "any.rule.preview.splitter";
 
 
 
@@ -51,6 +55,8 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 		this.setBorder(JBUI.Borders.empty());
 		textArea = new JXTextArea();
 		this.textArea.setEditable(false);
+		this.exampleText = new JXTextArea();
+		this.exampleText.setEditable(false);
 		this.checkTextArea = new JTextArea();
 		this.checkTextArea.registerKeyboardAction((e) -> {
 			if (this.checkTextArea.getText().contains("\n")) {
@@ -126,12 +132,23 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 		scrollPane.setBorder(JBUI.Borders.empty());
 		this.add(scrollPane,BorderLayout.NORTH);
 		jbScrollPane.setBorder(IdeBorderFactory.createTitledBorder("验证", false, new JBInsets(8, 0, 0, 0)).setShowLine(true));
-		this.add(jbScrollPane, BorderLayout.CENTER);
 		JPanel bootomPanel = new JPanel();
 		bootomPanel.setLayout(new BorderLayout());
 		statusText = new JLabel();
 		bootomPanel.add(statusText, BorderLayout.WEST);
 		this.add(bootomPanel, BorderLayout.SOUTH);
+
+		JBSplitter splitter = new JBSplitter(false,0.55F);
+		splitter.setSplitterProportionKey(SPLITTER_SERVICE_KEY);
+		splitter.setDividerWidth(1);
+		splitter.getDivider().setBackground(OnePixelDivider.BACKGROUND);
+		splitter.setFirstComponent(jbScrollPane);
+		JBScrollPane exampleScroll = new JBScrollPane(this.exampleText, 20, 30);
+		exampleScroll.setBorder(JBUI.Borders.empty());
+		exampleScroll.setBorder(IdeBorderFactory.createTitledBorder("示例", false, new JBInsets(8, 0, 0, 0)).setShowLine(true));
+		splitter.setSecondComponent(exampleScroll);
+		this.add(splitter, BorderLayout.CENTER);
+
 
 	}
 
@@ -174,6 +191,7 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 		this.textArea.setText(rule);
 		this.checkTextArea.setToolTipText(examples);
 		this.checkTextArea.setText("");
+		this.exampleText.setText(examples);
 	}
 
 	@Override

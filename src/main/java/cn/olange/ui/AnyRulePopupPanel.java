@@ -441,12 +441,12 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 		if (this.editor == null) {
 			return;
 		}
-		JsonObject value = (JsonObject) this.myResultsPreviewTable.getModel().getValueAt(selectedRow, 0);
+		RuleModel value = (RuleModel) this.myResultsPreviewTable.getModel().getValueAt(selectedRow, 0);
 		ApplicationManager.getApplication().runWriteAction(() -> {
 			int offset = editor.getCaretModel().getOffset();
 			WriteCommandAction.Builder builder = WriteCommandAction.writeCommandAction(AnyRulePopupPanel.this.project);
 			builder.run(() -> {
-				String  rule = value.get("rule").getAsString();
+				String  rule = value.getRule();
 				editor.getDocument().insertString(offset, convertRule(rule));
 			});
 		});
