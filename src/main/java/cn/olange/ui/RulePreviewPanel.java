@@ -1,5 +1,6 @@
 package cn.olange.ui;
 
+import cn.olange.model.RuleModel;
 import cn.olange.utils.RuleUtil;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.Disposable;
@@ -160,14 +161,14 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 		}
 	}
 
-	public void updateLayout(JsonObject row) {
-		ApplicationManager.getApplication().invokeLater(()->{RulePreviewPanel.this.updateLayoutLater(row);}, ModalityState.any());
+	public void updateLayout(RuleModel ruleModel) {
+		ApplicationManager.getApplication().invokeLater(()->{RulePreviewPanel.this.updateLayoutLater(ruleModel);}, ModalityState.any());
 	}
 
-	public void updateLayoutLater(JsonObject row) {
-		String title = row.get("title").getAsString();
-		String rule = row.get("rule").getAsString();
-		String examples = row.get("examples").getAsString();
+	public void updateLayoutLater(RuleModel row) {
+		String title = row.getTitle();
+		String rule = row.getRule();
+		String examples = row.getExamples();
 		this.setBorder(IdeBorderFactory.createTitledBorder(title, false, new JBInsets(8, 0, 0, 0)).setShowLine(false));
 		this.setToolTipText(title);
 		this.textArea.setText(rule);

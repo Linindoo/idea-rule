@@ -19,7 +19,7 @@ public class SettingConfigurable implements SearchableConfigurable {
     }
 
     @Override
-    public @NlsContexts.ConfigurableName String getDisplayName() {
+    public  String getDisplayName() {
         return DISPLAY_NAME;
     }
 

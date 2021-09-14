@@ -1,6 +1,6 @@
 package cn.olange.model;
 
-import com.google.gson.JsonObject;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.ColoredTableCellRenderer;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ui.JBUI;
@@ -31,9 +31,14 @@ public class UsageTableCellRenderer extends JPanel implements TableCellRenderer 
 		setBackground(color);
 		title.setBackground(color);
 		myRule.setBackground(color);
-		if (value instanceof JsonObject) {
-			JsonObject ruleObj = (JsonObject) value;
-			this.title.setText(ruleObj.get("title").getAsString());
+		if (value instanceof RuleModel) {
+			RuleModel ruleObj = (RuleModel) value;
+			this.title.setText(ruleObj.getTitle());
+			if (ruleObj.isSelfBuild()) {
+				this.title.setIcon(IconLoader.findIcon("/icons/selfbuild.svg"));
+			} else {
+				this.title.setIcon(null);
+			}
 		}
 		return this;
 	}

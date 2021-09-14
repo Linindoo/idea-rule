@@ -10,11 +10,10 @@ public class RuleTableCellRender extends ColoredTableCellRenderer {
 
 	@Override
 	protected void customizeCellRenderer(JTable table, Object value, boolean selected, boolean hasFocus, int row, int column) {
-		if (value instanceof JsonObject) {
-			JsonObject ruleObj = (JsonObject) value;
-			this.append("  " + ruleObj.get("rule").getAsString(), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
+		if (value instanceof RuleModel) {
+			RuleModel ruleObj = (RuleModel) value;
+			this.append("  " + ruleObj.getRule(), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
 		}
-
 		setBorder(null);
 	}
 }

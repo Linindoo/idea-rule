@@ -1,6 +1,7 @@
 package cn.olange.ui;
 
 import cn.olange.model.MyEnterAction;
+import cn.olange.model.RuleModel;
 import cn.olange.model.UsageTableCellRenderer;
 import cn.olange.service.RuleDataService;
 import cn.olange.setting.SettingConfigurable;
@@ -58,6 +59,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -201,7 +203,7 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 				int selectedRow = this.myResultsPreviewTable.getSelectedRow();
 				if (selectedRow >= 0) {
 					Object data = this.myResultsPreviewTable.getModel().getValueAt(selectedRow, 0);
-					rulePreviewPanel.updateLayout((JsonObject) data);
+					rulePreviewPanel.updateLayout((RuleModel) data);
 				}
 			}
 		};
@@ -542,9 +544,9 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 						} else {
 							RuleDataService.filterRule(AnyRulePopupPanel.this.mySearchComponent.getText(), (result) -> {
 								if (result.isSuccess()) {
-									JsonArray array = (JsonArray) result.getResult();
+									List<RuleModel> array = result.getResult();
 									for (int i = 0; i < array.size(); i++) {
-										JsonObject rule = array.get(i).getAsJsonObject();
+										RuleModel rule = array.get(i);
 										model.insertRow(i, new Object[]{rule});
 									}
 									int occurrences = resultsCount.get();

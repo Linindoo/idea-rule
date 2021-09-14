@@ -1,10 +1,11 @@
 package cn.olange.model;
 
-import com.google.gson.JsonArray;
+
+import java.util.List;
 
 public class Config {
     private String updateUrl ="https://raw.githubusercontent.com/any86/any-rule/v0.3.7/packages/www/src/RULES.js";
-    private JsonArray regExpArray;
+    private List<RuleModel> regExpList;
 
     public String getUpdateUrl() {
         return updateUrl;
@@ -14,11 +15,11 @@ public class Config {
         this.updateUrl = updateUrl;
     }
 
-    public JsonArray getRegExpArray() {
-        return regExpArray;
+    public List<RuleModel> getRegExpList() {
+        return regExpList;
     }
 
-    public void setRegExpArray(JsonArray regExpArray) {
-        this.regExpArray = regExpArray;
+    public void setRegExpList(List<RuleModel> regExpList) {
+        this.regExpList = regExpList;
     }
 }
