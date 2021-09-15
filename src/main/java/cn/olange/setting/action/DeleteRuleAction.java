@@ -1,6 +1,5 @@
 package cn.olange.setting.action;
 
-import cn.olange.model.RuleModel;
 import cn.olange.setting.SettingUI;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;

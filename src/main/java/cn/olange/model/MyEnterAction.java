@@ -8,11 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class MyEnterAction extends DumbAwareAction {
 
-	private final boolean myEnterAsOK;
 	private AnyRulePopupPanel anyRulePopupPanel;
 
-	public MyEnterAction(boolean enterAsOK, AnyRulePopupPanel anyRulePopupPanel) {
-		this.myEnterAsOK = enterAsOK;
+	public MyEnterAction(AnyRulePopupPanel anyRulePopupPanel) {
 		this.anyRulePopupPanel = anyRulePopupPanel;
 	}
 

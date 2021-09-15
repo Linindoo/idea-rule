@@ -2,11 +2,10 @@ package cn.olange.ui;
 
 import cn.olange.model.RuleModel;
 import cn.olange.utils.RuleUtil;
-import com.google.gson.JsonObject;
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
-import com.intellij.openapi.keymap.KeymapUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.OnePixelDivider;
 import com.intellij.openapi.util.SystemInfo;
@@ -57,29 +56,16 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 		this.textArea.setEditable(false);
 		this.exampleText = new JXTextArea();
 		this.exampleText.setEditable(false);
+		this.exampleText.setLineWrap(true);
+		this.exampleText.setWrapStyleWord(true);
 		this.checkTextArea = new JTextArea();
-		this.checkTextArea.registerKeyboardAction((e) -> {
-			if (this.checkTextArea.getText().contains("\n")) {
-				if (this.checkTextArea.isEditable() && this.checkTextArea.isEnabled()) {
-					this.checkTextArea.replaceSelection("\t");
-				} else {
-					UIManager.getLookAndFeel().provideErrorFeedback(this.checkTextArea);
-				}
-			} else {
-				this.checkTextArea.transferFocus();
-			}
-
-		}, KeyStroke.getKeyStroke(9, 0), 0);
-		this.checkTextArea.registerKeyboardAction((e) -> {
-			this.checkTextArea.transferFocusBackward();
-		}, KeyStroke.getKeyStroke(9, 64), 0);
-		KeymapUtil.reassignAction(this.checkTextArea, KeyStroke.getKeyStroke(10, 0), NEW_LINE_KEYSTROKE, 0);
+		this.checkTextArea.setLineWrap(true);
+		this.checkTextArea.setWrapStyleWord(true);
 		this.checkTextArea.setDocument(new PlainDocument() {
 			public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 				if (this.getProperty("filterNewlines") == Boolean.TRUE && str.indexOf(10) >= 0) {
 					str = StringUtil.replace(str, "\n", " ");
 				}
-
 				if (!StringUtil.isEmpty(str)) {
 					super.insertString(offs, str, a);
 				}
@@ -145,7 +131,7 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 		splitter.setFirstComponent(jbScrollPane);
 		JBScrollPane exampleScroll = new JBScrollPane(this.exampleText, 20, 30);
 		exampleScroll.setBorder(JBUI.Borders.empty());
-		exampleScroll.setBorder(IdeBorderFactory.createTitledBorder("示例", false, new JBInsets(8, 0, 0, 0)).setShowLine(true));
+		exampleScroll.setBorder(IdeBorderFactory.createTitledBorder("示例", true, new JBInsets(8, 10, 0, 0)).setShowLine(true));
 		splitter.setSecondComponent(exampleScroll);
 		this.add(splitter, BorderLayout.CENTER);
 
@@ -155,24 +141,19 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 	private void checkTextChange(){
 		if (this.checkAlarm != null && !this.checkAlarm.isDisposed()) {
 			this.checkAlarm.cancelAllRequests();
-			this.checkAlarm.addRequest(new Runnable() {
-				@Override
-				public void run() {
-					String text = checkTextArea.getText();
-					if (StringUtils.isNotEmpty(text)) {
-						String rule = RuleUtil.convertRule(textArea.getText());
-						Pattern pattern = Pattern.compile(rule);
-						Matcher matcher = pattern.matcher(text);
-						if (matcher.find()) {
-							statusText.setForeground(Color.GREEN);
-							statusText.setText("验证成功，符合规则");
-						} else {
-							statusText.setForeground(Color.RED);
-							statusText.setText("验证失败");
-						}
+			this.checkAlarm.addRequest(() -> {
+				String text = checkTextArea.getText();
+				if (StringUtils.isNotEmpty(text)) {
+					String rule = RuleUtil.convertRule(textArea.getText());
+					Pattern pattern = Pattern.compile(rule);
+					Matcher matcher = pattern.matcher(text);
+					if (matcher.find()) {
+						statusText.setIcon(AllIcons.RunConfigurations.TestPassed);
 					} else {
-						statusText.setText("");
+						statusText.setIcon(AllIcons.RunConfigurations.TestError);
 					}
+				} else {
+					statusText.setIcon(null);
 				}
 			}, 200);
 		}

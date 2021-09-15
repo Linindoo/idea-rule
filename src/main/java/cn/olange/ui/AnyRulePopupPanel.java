@@ -1,13 +1,10 @@
 package cn.olange.ui;
 
-import cn.olange.model.MyEnterAction;
 import cn.olange.model.RuleModel;
 import cn.olange.model.UsageTableCellRenderer;
 import cn.olange.service.RuleDataService;
 import cn.olange.setting.SettingConfigurable;
 import cn.olange.utils.RuleUtil;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.intellij.find.SearchTextArea;
 import com.intellij.find.actions.ShowUsagesAction;
 import com.intellij.icons.AllIcons;
@@ -18,7 +15,6 @@ import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.CommonShortcuts;
-import com.intellij.openapi.actionSystem.CustomShortcutSet;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -64,9 +60,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
-	private static final KeyStroke ENTER = KeyStroke.getKeyStroke(10, 0);
-	private static final KeyStroke ENTER_WITH_MODIFIERS = KeyStroke.getKeyStroke(10, SystemInfo.isMac ? 256 : 128);
 	private static final String IGNORE_SWAY_ROD = "any.rule.ignoreSwayRod";
+	private String key = "ide.anyrule.enter.as.ok";
 	private final Disposable myDisposable;
 	private Project project;
 	private Editor editor;
@@ -126,7 +121,7 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 		this.myTitlePanel.add(Box.createHorizontalGlue(), "growx, pushx");
 
 
-		this.myOKButton = new JButton("Enter 使用");
+		this.myOKButton = new JButton("双击插入");
 		this.myOKButton.addActionListener((e) -> {
 			AnyRulePopupPanel.this.insertRuleToDocument();
 		});
@@ -149,7 +144,6 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 		this.myResultsPreviewTable.setFocusable(false);
 		this.myResultsPreviewTable.getEmptyText().setShowAboveCenter(false);
 		this.myResultsPreviewTable.setShowColumns(false);
-		this.myResultsPreviewTable.getSelectionModel().setSelectionMode(2);
 		this.myResultsPreviewTable.setShowGrid(false);
 		this.myResultsPreviewTable.setIntercellSpacing(JBUI.emptySize());
 		this.myResultsPreviewTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -169,13 +163,6 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 				AnyRulePopupPanel.this.myResultsPreviewTable.transferFocus();
 			}
 		});
-		boolean enterAsOK = Registry.is("ide.anyrule.enter.as.ok", false);
-		(new MyEnterAction(enterAsOK, this)).registerCustomShortcutSet(new CustomShortcutSet(ENTER), this);
-		DumbAwareAction.create((__) -> {
-			this.insertRuleToDocument();
-		}).registerCustomShortcutSet(new CustomShortcutSet(ENTER_WITH_MODIFIERS), this);
-
-
 		ScrollingUtil.installActions(this.myResultsPreviewTable, false, mySearchComponent);
 
 		JBScrollPane scrollPane = new JBScrollPane(this.myResultsPreviewTable) {
@@ -393,10 +380,8 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 				} else {
 					w.setLocationRelativeTo(parent);
 				}
-
 				this.myDialog.show();
 				this.mySearchComponent.requestFocus();
-
 				w.addWindowListener(new WindowAdapter() {
 					public void windowOpened(WindowEvent e) {
 						w.addWindowFocusListener(new WindowAdapter() {
