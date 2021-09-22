@@ -1,6 +1,5 @@
 package cn.olange.model;
 
-import com.google.gson.JsonObject;
 import com.intellij.ui.ColoredTableCellRenderer;
 import com.intellij.ui.SimpleTextAttributes;
 
