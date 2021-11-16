@@ -7,7 +7,7 @@ plugins {
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 group = "cn.olange"
-version = "1.0.5"
+version = "1.0.5.1"
 
 repositories {
     mavenCentral()
