@@ -170,7 +170,6 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 		this.setBorder(IdeBorderFactory.createTitledBorder(title, false, new JBInsets(8, 0, 0, 0)).setShowLine(false));
 		this.setToolTipText(title);
 		this.textArea.setText(rule);
-		this.checkTextArea.setToolTipText(examples);
 		this.checkTextArea.setText("");
 		this.exampleText.setText(examples);
 	}

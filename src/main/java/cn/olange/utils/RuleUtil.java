@@ -10,6 +10,6 @@ public class RuleUtil {
 		first = Math.max(first + 1, 0);
 		int lastIndexOf = rule.lastIndexOf("/");
 		lastIndexOf = Math.min(lastIndexOf, rule.length() -1);
-		return rule.substring(first, lastIndexOf);
+		return rule.substring(first, lastIndexOf).replace("[\\]", "");
 	}
 }
