@@ -1,8 +1,8 @@
 <idea-plugin>
   <id>cn.olange.rule</id>
   <name>any-rule</name>
-  <version>1.0.5.1</version>
-  <vendor email="olange@www.52zhoujia.com" url="https://github.com/zhoriya/idea-rule">any-rule</vendor>
+  <version>1.0.5.2</version>
+  <vendor email="olange@www.52zhoujia.com" url="https://github.com/Linindoo/idea-rule">any-rule</vendor>
 
   <description><![CDATA[
   <html>
@@ -22,6 +22,10 @@
     ]]></description>
   <change-notes><![CDATA[
     <html>
+    <p> Version 1.0.5.2</p>
+      <ul>
+        <li>[fix] 修复版本打包问题</li>
+      </ul>
     <p> Version 1.0.5.1</p>
       <ul>
         <li>[fix] 修复冗余字符导致的正则校验失败的bug</li>
