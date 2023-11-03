@@ -15,6 +15,7 @@ import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBPanelWithEmptyText;
 import com.intellij.ui.components.JBScrollPane;
+import com.intellij.ui.scale.JBUIScale;
 import com.intellij.util.Alarm;
 import com.intellij.util.ui.JBInsets;
 import com.intellij.util.ui.JBUI;
@@ -101,7 +102,7 @@ public class RulePreviewPanel extends JBPanelWithEmptyText implements Disposable
 				} else {
 					int bottom = StringUtil.getLineBreakCount(RulePreviewPanel.this.checkTextArea.getText()) > 0 ? 2 : (UIUtil.isUnderDarcula() ? 2 : 1);
 					int top = RulePreviewPanel.this.checkTextArea.getFontMetrics(RulePreviewPanel.this.checkTextArea.getFont()).getHeight() <= 16 ? 2 : 1;
-					if (JBUI.isUsrHiDPI()) {
+					if (JBUIScale.isUsrHiDPI()) {
 						bottom = 2;
 						top = 2;
 					}

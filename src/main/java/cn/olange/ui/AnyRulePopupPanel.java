@@ -36,7 +36,6 @@ import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.IdeGlassPane;
 import com.intellij.openapi.wm.WindowManager;
-import com.intellij.openapi.wm.impl.IdeFrameImpl;
 import com.intellij.ui.*;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.components.JBLabel;
@@ -312,10 +311,6 @@ public class AnyRulePopupPanel extends JBPanel<AnyRulePopupPanel> {
 
 				if (parent != null && showPoint == null) {
 					int height = UISettings.getInstance().getShowNavigationBar() ? 135 : 115;
-					if (parent instanceof IdeFrameImpl && ((IdeFrameImpl) parent).isInFullScreen()) {
-						height -= 20;
-					}
-
 					showPoint = new RelativePoint(parent, new Point((parent.getSize().width - this.getPreferredSize().width) / 2, height));
 				}
 
